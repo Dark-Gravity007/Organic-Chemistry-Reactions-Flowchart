@@ -5,13 +5,26 @@
 A clean, interactive, and comprehensive visual guide to Organic Chemistry reaction pathways. This project maps out complex transformations in aliphatic and aromatic chemistry into digestible, color-coded flowcharts.
 
 # HERE IS THE LINK TO SITE
-<a href="https://as-chem.fwh.is/" class="button">AS-Chem</a>
-
+<div align="center">
+  <a href="https://as-chem.fwh.is/" style="text-decoration: none;">
+    <kbd style="
+      background-color: #1a1a2e;
+      color: #fdf8f0;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #666;
+      cursor: pointer;
+    ">
+      🚀 Launch AS-Chem Flowcharts
+    </kbd>
+  </a>
+</div>
 ## 🌟 Overview
 
 Navigating organic synthesis can be overwhelming. This tool serves as a "GPS" for chemical reactions, helping students and educators visualize how different functional groups interconnect.
-
-The application is a **single-file web solution**—no installation required. Simply open the HTML file in any browser to start exploring the networks.
 
 ## 🗺️ What's Inside?
 
@@ -37,22 +50,7 @@ The flowcharts are divided into four primary networks:
 - **Responsive Design:** Works on both desktop and mobile devices for quick reference during study sessions.
     
 - **Lightweight:** Pure HTML/CSS with minimal JavaScript; zero dependencies.
-    
-
-## 🚀 How to Use
-
-1.  **Clone the repository:**
-    
-    Bash
-    
-    ```
-    git clone https://github.com/YOUR_USERNAME/OC-Flowcharts.git
-    ```
-    
-2.  **Open the file:**
-    
-    Navigate to the folder and double-click `OC_Flowcharts.html` to open it in your preferred web browser.
-    
+  
 
 ## 🛠️ Development & Customization
 
