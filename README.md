@@ -5,28 +5,9 @@
 A clean, interactive, and comprehensive visual guide to Organic Chemistry reaction pathways. This project maps out complex transformations in aliphatic and aromatic chemistry into digestible, color-coded flowcharts.
 
 # HERE IS THE LINK TO SITE
-<div align="center">
-  <a href="https://as-chem.fwh.is/" style="text-decoration: none;">
-    <kbd style="
-      background-color: #1a1a2e;
-      color: #fdf8f0;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 20px;
-      font-weight: bold;
-      border: 2px solid #666;
-      cursor: pointer;
-    ">
-      🚀 Launch AS-Chem Flowcharts
-    </kbd>
-  </a>
-</div>
 
+[![Website](https://img.shields.io/badge/Visit_Website-as--chem.fwh.is-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://as-chem.fwh.is/)
 
-<a href="https://as-chem.fwh.is/">
-<img src="https://img.shields.io/badge/AS--CHEM-OPEN%20FLOWCHARTS-1a1a2e?style=for-the-badge&logo=react&logoColor=61DAFB&labelColor=000000" alt="AS-Chem Website" height="40">
-</a>
 
 ## 🌟 Overview
 
