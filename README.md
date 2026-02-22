@@ -6,8 +6,7 @@ A clean, interactive, and comprehensive visual guide to Organic Chemistry reacti
 
 # HERE IS THE LINK TO SITE
 
-[![Website](https://img.shields.io/badge/Visit_Website-as--chem.fwh.is-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://as-chem.fwh.is/)
-
+[![Live Site](https://img.shields.io/badge/LIVE_SITE-Visit_Now-blueviolet?style=for-the-badge&logo=windowsterminal&logoColor=white)](https://as-chem.fwh.is/)
 
 ## 🌟 Overview
 
