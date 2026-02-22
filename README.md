@@ -23,6 +23,11 @@ A clean, interactive, and comprehensive visual guide to Organic Chemistry reacti
   </a>
 </div>
 
+
+<a href="https://as-chem.fwh.is/">
+<img src="https://img.shields.io/badge/AS--CHEM-OPEN%20FLOWCHARTS-1a1a2e?style=for-the-badge&logo=react&logoColor=61DAFB&labelColor=000000" alt="AS-Chem Website" height="40">
+</a>
+
 ## 🌟 Overview
 
 Navigating organic synthesis can be overwhelming. This tool serves as a "GPS" for chemical reactions, helping students and educators visualize how different functional groups interconnect.
