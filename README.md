@@ -13,7 +13,7 @@ A clean, interactive, and comprehensive visual guide to Organic Chemistry reacti
       padding: 12px 30px;
       border-radius: 50px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
       border: 2px solid #666;
       cursor: pointer;
@@ -22,6 +22,7 @@ A clean, interactive, and comprehensive visual guide to Organic Chemistry reacti
     </kbd>
   </a>
 </div>
+
 ## 🌟 Overview
 
 Navigating organic synthesis can be overwhelming. This tool serves as a "GPS" for chemical reactions, helping students and educators visualize how different functional groups interconnect.
