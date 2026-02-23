@@ -7,568 +7,621 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ROOT */
+  :root {
+    --bg:      #f4f1eb;
+    --paper:   #fdfaf5;
+    --ink:     #1a1a2e;
+    --red:     #c0392b;
+    --green:   #27ae60;
+    --purple:  #8e44ad;
+    --blue:    #2980b9;
+    --orange:  #e67e22;
+
+    --shadow-sm: 0 1px 3px rgba(26,26,46,.07), 0 2px 8px rgba(26,26,46,.05);
+    --shadow-md: 0 4px 14px rgba(26,26,46,.1),  0 1px 4px rgba(26,26,46,.06);
+
+    --mono:  'JetBrains Mono', monospace;
+    --serif: 'Crimson Pro', Georgia, serif;
+    --ease:  0.22s cubic-bezier(.4,0,.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #fdf8f0;
-    font-family: 'Crimson Pro', Georgia, serif;
-    color: #1a1a2e;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 18% 60%, rgba(199,160,90,.05) 0%, transparent 55%),
+      radial-gradient(circle at 82% 15%, rgba(192,57,43,.04) 0%, transparent 50%);
+    font-family: var(--serif);
+    color: var(--ink);
     min-height: 100vh;
-  }
-
-  .page-title {
-    text-align: center;
-    padding: 24px 20px 6px;
-    font-size: 26px;
-    font-weight: 600;
-    color: #1a1a2e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    text-align: center;
-    font-size: 12px;
-    color: #666;
-    padding: 4px 0 0;
-    font-style: italic;
-    letter-spacing: 2px;
-    font-family: 'JetBrains Mono', monospace;
-    border-bottom: 2px solid #1a1a2e;
-    padding-bottom: 12px;
-    margin-bottom: 0;
-  }
-
-  .tab-bar {
-    display: flex;
-    gap: 0;
-    padding: 0 20px;
-    border-bottom: 2px solid #1a1a2e;
-    background: #fdf8f0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 10px 18px;
-    cursor: pointer;
-    font-size: 11.5px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    border: none;
-    background: none;
-    color: #888;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .tab:hover { color: #1a1a2e; }
-  .tab.active { color: #1a1a2e; border-bottom-color: #c0392b; }
-
-  .chart-section {
-    display: none;
-    padding: 28px 30px 60px;
-  }
-  .chart-section.active { display: block; }
-
-  .section-title {
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 1px;
-    color: #c0392b;
-    margin-bottom: 24px;
-    padding-bottom: 8px;
-    border-bottom: 1px dashed #c0392b;
-    text-transform: uppercase;
-  }
-
-  .box {
-    border: 2px solid #1a1a2e;
-    background: white;
-    border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 13px;
-    display: inline-block;
-    text-align: center;
-    min-width: 90px;
-    line-height: 1.4;
-    flex-shrink: 0;
-  }
-
-  .box-center {
-    border: 3px solid #c0392b;
-    background: #fff5f5;
-    border-radius: 6px;
-    padding: 10px 18px;
-    font-weight: 700;
     font-size: 15px;
-    display: inline-block;
-    text-align: center;
-  }
-
-  .box-green {
-    border: 2px solid #27ae60;
-    background: #f0fff4;
-    color: #1a5c32;
-    border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 13px;
-    display: inline-block;
-    text-align: center;
-    min-width: 90px;
-    flex-shrink: 0;
-  }
-
-  .box-purple {
-    border: 2px solid #8e44ad;
-    background: #faf0ff;
-    color: #5b2c6f;
-    border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 13px;
-    display: inline-block;
-    text-align: center;
-    min-width: 90px;
-    flex-shrink: 0;
-  }
-
-  .box-blue {
-    border: 2px solid #2980b9;
-    background: #f0f8ff;
-    color: #1a3a5c;
-    border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 13px;
-    display: inline-block;
-    text-align: center;
-    min-width: 90px;
-    flex-shrink: 0;
-  }
-
-  .box-orange {
-    border: 2px solid #e67e22;
-    background: #fff8f0;
-    color: #7d4000;
-    border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 13px;
-    display: inline-block;
-    text-align: center;
-    min-width: 90px;
-    flex-shrink: 0;
-  }
-
-  .note-box {
-    border: 1px dashed #f39c12;
-    background: #fffde8;
-    border-radius: 4px;
-    padding: 8px 14px;
-    font-size: 12px;
-    font-style: italic;
-    display: inline-block;
-    color: #7d6608;
     line-height: 1.5;
   }
 
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--paper);
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    padding: 22px 24px 0;
+    text-align: center;
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(19px, 4.5vw, 30px);
+    font-weight: 600;
+    letter-spacing: .4px;
+  }
+  .subtitle {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1.8vw, 11px);
+    color: #888;
+    letter-spacing: 2px;
+    font-style: italic;
+    padding: 5px 0 14px;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid #e0d8cc;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid #d5ccbe;
+    border-radius: 50px;
+    padding: 6px 14px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.05);
+    transition: border-color var(--ease), box-shadow var(--ease);
+  }
+  .search-inner:focus-within {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(192,57,43,.1), inset 0 1px 3px rgba(0,0,0,.05);
+  }
+  .search-icon { color: #aaa; font-size: 15px; flex-shrink: 0; }
+  #search-input {
+    border: none; outline: none; background: transparent;
+    font-family: var(--mono); font-size: 11px; color: var(--ink);
+    width: 100%; letter-spacing: .3px;
+  }
+  #search-input::placeholder { color: #bbb; }
+  #search-clear {
+    cursor: pointer; font-family: var(--mono); font-size: 10px;
+    color: #bbb; background: none; border: none; padding: 0 2px;
+    transition: color var(--ease); display: none;
+  }
+  #search-clear:hover { color: var(--red); }
+  .search-match {
+    outline: 2.5px solid var(--orange) !important;
+    box-shadow: 0 0 0 5px rgba(230,126,34,.18) !important;
+    transform: scale(1.04) !important;
+    z-index: 2; position: relative;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 16px;
+    background: var(--paper);
+    border-bottom: 2px solid var(--ink);
+    position: sticky;
+    top: 50px;
+    z-index: 100;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: clamp(9.5px, 1.9vw, 11.5px);
+    font-weight: 600;
+    letter-spacing: .3px;
+    border: none; background: none; color: #999;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color var(--ease), border-color var(--ease);
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--red); }
+
+  /* ── SECTIONS ── */
+  .chart-section {
+    display: none;
+    padding: clamp(16px,3vw,32px) clamp(12px,3vw,32px) 80px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .chart-section.active { display: block; }
+  .section-title {
+    font-family: var(--mono);
+    font-size: clamp(10px,1.9vw,13px);
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    padding-bottom: 9px;
+    border-bottom: 1px dashed var(--red);
+  }
+
+  /* ── GRIDS ── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr;           gap: 18px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: repeat(3,1fr);     gap: 18px; align-items: start; }
+  @media (max-width: 900px) { .three-col { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .tab { padding: 9px 10px; }
+    .chart-section { padding: 14px 11px 64px; }
+  }
+
+  /* ── CARDS ── */
+  .subsection {
+    background: var(--paper);
+    border: 1px solid #e4ddd2;
+    border-radius: 9px;
+    padding: clamp(14px,2.5vw,22px);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--ease);
+  }
+  .subsection:hover { box-shadow: var(--shadow-md); }
+
+  .subsection-title {
+    font-family: var(--mono);
+    font-size: clamp(9px,1.7vw,10.5px);
+    font-weight: 600;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #deeaf7;
+  }
+  .sub-group-title {
+    font-family: var(--mono);
+    font-size: clamp(9px,1.7vw,10.5px);
+    font-weight: 600;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 14px 0 7px;
+  }
+
+  /* ── CENTRAL NODE CARD (Tab 1) ── */
+  .central-node-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+    background: linear-gradient(160deg,#fffaf5 0%,#fff8f0 100%);
+    border: 1.5px solid #e8d8c0;
+    border-radius: 9px;
+    padding: clamp(18px,3vw,28px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── BOXES ── */
+  .box, .box-green, .box-purple, .box-blue, .box-orange, .box-center {
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+    padding: 6px 13px;
+    font-family: var(--serif);
+    font-size: clamp(12px,2.1vw,13.5px);
+    line-height: 1.4;
+    flex-shrink: 0;
+    transition: transform var(--ease), box-shadow var(--ease);
+    cursor: default;
+  }
+  .box        { border: 2px solid var(--ink);    background: #fff;    min-width: 88px; box-shadow: var(--shadow-sm); }
+  .box-green  { border: 2px solid var(--green);  background: #f0fff4; color: #155a2c; min-width: 88px; box-shadow: 0 1px 4px rgba(39,174,96,.1); }
+  .box-purple { border: 2px solid var(--purple); background: #faf0ff; color: #5b2c6f; min-width: 88px; box-shadow: 0 1px 4px rgba(142,68,173,.1); }
+  .box-blue   { border: 2px solid var(--blue);   background: #eef6ff; color: #1a3a5c; min-width: 88px; box-shadow: 0 1px 4px rgba(41,128,185,.1); }
+  .box-orange { border: 2px solid var(--orange); background: #fff8f0; color: #7d4000; min-width: 88px; box-shadow: 0 1px 4px rgba(230,126,34,.1); }
+  .box-center {
+    border: 2.5px solid var(--red);
+    background: linear-gradient(135deg,#fff5f5 0%,#fdf0f0 100%);
+    color: #8b1a1a; font-weight: 700;
+    font-size: clamp(13px,2.4vw,15px);
+    box-shadow: 0 2px 10px rgba(192,57,43,.15);
+  }
+  .box:hover        { transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-md); }
+  .box-green:hover  { transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(39,174,96,.2); }
+  .box-purple:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(142,68,173,.2); }
+  .box-blue:hover   { transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(41,128,185,.2); }
+  .box-orange:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(230,126,34,.2); }
+  .box-center:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 18px rgba(192,57,43,.24); }
+
+  /* ── NOTE BOX ── */
+  .note-box {
+    border: 1px dashed #e0a838;
+    background: #fffce8;
+    border-radius: 5px;
+    padding: 9px 14px;
+    font-family: var(--serif);
+    font-size: clamp(11px,2vw,12.5px);
+    font-style: italic;
+    color: #7a5900;
+    line-height: 1.6;
+    display: inline-block;
+    box-shadow: 0 1px 4px rgba(224,168,56,.12);
+  }
+
+  /* ── ROW ── */
   .row {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     margin: 5px 0;
-    gap: 3px;
+    gap: 4px;
   }
 
+  /* ── ARROW HORIZONTAL (interactive) ── */
   .arrow-h {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 4px;
-    flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center;
+    margin: 0 2px; flex-shrink: 0; cursor: default;
   }
-
-  .arrow-shaft {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  .arrow-h:hover .arrow-line { background: var(--red); height: 3px; }
+  .arrow-h:hover .arrow-line::after { border-left-color: var(--red); }
+  .arrow-h:hover .reagent {
+    background: #fff5f5; border-color: var(--red);
+    color: #8b1a1a; transform: scale(1.06);
   }
-
+  .arrow-shaft { display: flex; align-items: center; width: 100%; }
   .arrow-line {
-    height: 2px;
-    background: #1a1a2e;
-    flex: 1;
-    min-width: 30px;
+    height: 2px; background: #555; flex: 1; min-width: 32px;
     position: relative;
+    transition: background var(--ease), height var(--ease);
   }
-
   .arrow-line::after {
     content: '';
-    position: absolute;
-    right: -1px;
-    top: -4px;
-    border: 5px solid transparent;
-    border-left: 8px solid #1a1a2e;
+    position: absolute; right: -1px; top: -4px;
+    border: 5px solid transparent; border-left: 9px solid #555;
+    transition: border-left-color var(--ease);
   }
 
+  /* ── REAGENT LABEL ── */
   .reagent {
-    font-size: 9.5px;
-    font-family: 'JetBrains Mono', monospace;
-    color: #c0392b;
+    font-family: var(--mono);
+    font-size: clamp(8px,1.5vw,9.5px);
+    color: #a02818;
     background: #fdf8f0;
-    border: 1px solid #e0b090;
-    padding: 1px 5px;
-    border-radius: 2px;
+    border: 1px solid #dfc8a8;
+    padding: 2px 6px;
+    border-radius: 3px;
     text-align: center;
     white-space: nowrap;
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     line-height: 1.4;
+    letter-spacing: .2px;
+    transition: background var(--ease), border-color var(--ease), color var(--ease), transform var(--ease);
   }
 
+  /* ── NAMED REACTION BADGE ── */
   .named-rxn {
-    font-size: 9.5px;
-    font-family: 'JetBrains Mono', monospace;
-    color: #e67e22;
-    font-style: italic;
-    background: #fff8f0;
-    border: 1px solid #e67e22;
-    padding: 1px 5px;
-    border-radius: 2px;
-    display: inline-block;
-    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: clamp(8px,1.5vw,9.5px);
+    font-weight: 600;
+    font-style: normal;
+    color: #fff;
+    background: linear-gradient(135deg,#b07010 0%,#e0981a 100%);
+    padding: 3px 8px 3px 6px;
+    border-radius: 50px;
     white-space: nowrap;
     flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(176,112,16,.38);
+    letter-spacing: .3px;
+    transition: transform var(--ease), box-shadow var(--ease);
+    cursor: default;
+  }
+  .named-rxn::before { content: '★'; font-size: 8px; opacity: .85; }
+  .named-rxn:hover {
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 10px rgba(176,112,16,.48);
   }
 
+  /* ── DIVIDER ── */
   .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #ccc 20%, #ccc 80%, transparent);
-    margin: 16px 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, #d0c8bc 25%, #d0c8bc 75%, transparent);
+    margin: 14px 0;
   }
 
-  .subsection {
-    background: white;
-    border: 1px solid #e0d8cc;
-    border-radius: 8px;
-    padding: 20px;
-  }
-
-  .subsection-title {
-    font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    color: #2980b9;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #e0e8f0;
-  }
-
-  .sub-group-title {
-    font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    color: #c0392b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 12px 0 6px;
-  }
-
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .three-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
+  /* ── BRANCH INDENT ── */
   .branch-indent {
-    padding-left: 20px;
-    border-left: 2px dashed;
-    margin-left: 14px;
-    margin-top: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-left: 18px; border-left: 2px dashed;
+    margin-left: 12px; margin-top: 5px;
+    padding-top: 5px; padding-bottom: 4px;
   }
+  .branch-blue   { border-color: var(--blue);   }
+  .branch-green  { border-color: var(--green);  }
+  .branch-purple { border-color: var(--purple); }
+  .branch-orange { border-color: var(--orange); }
 
-  .branch-blue { border-color: #2980b9; }
-  .branch-green { border-color: #27ae60; }
-  .branch-purple { border-color: #8e44ad; }
-  .branch-orange { border-color: #e67e22; }
-
+  /* ── ARROW VERTICAL (interactive) ── */
   .arrow-down-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 4px 0;
+    display: flex; flex-direction: column; align-items: center;
+    margin: 4px 0; cursor: default;
   }
-
+  .arrow-down-wrap:hover .arrow-v-line { background: var(--red); }
+  .arrow-down-wrap:hover .arrow-v-line::after { border-top-color: var(--red); }
+  .arrow-down-wrap:hover .reagent { background:#fff5f5; border-color:var(--red); color:#8b1a1a; }
   .arrow-v-line {
-    width: 2px;
-    height: 22px;
-    background: #1a1a2e;
-    position: relative;
+    width: 2px; height: 24px; background: #555;
+    position: relative; transition: background var(--ease);
   }
   .arrow-v-line::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: -4px;
-    border: 5px solid transparent;
-    border-top: 8px solid #1a1a2e;
+    content: ''; position: absolute; bottom:-1px; left:-4px;
+    border: 5px solid transparent; border-top: 9px solid #555;
+    transition: border-top-color var(--ease);
   }
 
-  @media (max-width: 768px) {
-    .two-col, .three-col { grid-template-columns: 1fr; }
-    .tab { padding: 8px 10px; font-size: 10px; }
-    .chart-section { padding: 18px 14px 40px; }
+  /* ── FOOTER ── */
+  .footer-badge {
+    position: fixed; bottom: 18px; right: 18px;
+    background: var(--ink); color: #fdf8f0;
+    padding: 7px 14px; border-radius: 50px;
+    font-family: var(--mono); font-size: 9.5px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    z-index: 1000; pointer-events: none; letter-spacing: .5px;
   }
-  
-      .github-corner:hover .octo-arm {
-        animation: octocat-wave 560ms ease-in-out;
-    }
-    @keyframes octocat-wave {
-        0%, 100% { transform: rotate(0); }
-        20%, 60% { transform: rotate(-25deg); }
-        40%, 80% { transform: rotate(10deg); }
-    }
-    @media (max-width: 500px) {
-        .github-corner:hover .octo-arm { animation: none; }
-        .github-corner .octo-arm { animation: octocat-wave 560ms ease-in-out; }
-    }
-  
+  .page-footer {
+    text-align: center; margin-top: 40px; padding: 22px 20px;
+    border-top: 1px solid #ddd;
+    font-family: var(--mono); font-size: 10.5px; color: #777;
+    letter-spacing: 1px; background: var(--paper);
+  }
+  .page-footer a { color: var(--blue); text-decoration: none; }
+  .page-footer a:hover { text-decoration: underline; }
+
+  /* GitHub corner */
+  .github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
+  @keyframes octocat-wave {
+    0%,100%{transform:rotate(0)} 20%,60%{transform:rotate(-25deg)} 40%,80%{transform:rotate(10deg)}
+  }
+  @media(max-width:500px){
+    .github-corner:hover .octo-arm{animation:none}
+    .github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}
+  }
 </style>
 
-<!-- Github Redirect -->
+<!-- GitHub corner -->
 <a href="https://github.com/Dark-Gravity007" class="github-corner" aria-label="View source on GitHub" target="_blank">
-    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#1a1a2e; color:#fdf8f0; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.3 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
-    </svg>
+  <svg width="70" height="70" viewBox="0 0 250 250"
+    style="fill:#1a1a2e;color:#fdf8f0;position:fixed;top:0;right:0;z-index:9999;border:0;"
+    aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+      fill="currentColor" style="transform-origin:130px 106px;" class="octo-arm"/>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.3 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+      fill="currentColor" class="octo-body"/>
+  </svg>
 </a>
 
-</head>
-<body>
+<div class="page-header">
+  <div class="page-title">Organic Chemistry — Reaction Flowcharts</div>
+  <div class="subtitle">Aliphatic &nbsp;·&nbsp; Carbonyl &nbsp;·&nbsp; Benzene / Phenol &nbsp;·&nbsp; Aniline &amp; Diazonium</div>
+</div>
 
-<div class="page-title">Organic Chemistry — Reaction Flowcharts</div>
-<div class="subtitle">Aliphatic &nbsp;·&nbsp; Carbonyl &nbsp;·&nbsp; Benzene / Phenol &nbsp;·&nbsp; Aniline & Diazonium</div>
+<!-- SEARCH BAR -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">⌕</span>
+    <input id="search-input" type="text" placeholder="Search reaction, reagent or product…" autocomplete="off" spellcheck="false">
+    <button id="search-clear" title="Clear">✕</button>
+  </div>
+</div>
 
 <div class="tab-bar">
   <button class="tab active" onclick="showTab('tab1',this)">① Alkyl Halide Network</button>
   <button class="tab" onclick="showTab('tab2',this)">② Carbonyl Group</button>
-  <button class="tab" onclick="showTab('tab3',this)">③ Benzene & Phenol</button>
-  <button class="tab" onclick="showTab('tab4',this)">④ Aniline & Diazonium</button>
+  <button class="tab" onclick="showTab('tab3',this)">③ Benzene &amp; Phenol</button>
+  <button class="tab" onclick="showTab('tab4',this)">④ Aniline &amp; Diazonium</button>
 </div>
 
-<!-- TAB 1 -->
+<!-- ══════════════════ TAB 1 ══════════════════ -->
 <div id="tab1" class="chart-section active">
   <div class="section-title">Alkyl Halide (R–X) — Central Reaction Network</div>
 
-  <div style="display:flex; flex-wrap:wrap; gap:30px; align-items:flex-start;">
+  <!-- ROW 1: Central node | Grignard pathway -->
+  <div class="two-col" style="margin-bottom:18px;">
 
-    <!-- Central node block -->
-   <div class="subsection" style="margin-bottom:20px;">
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;padding-top:80px;">
-      <div class="box-center">Alkyl Halide<br>R – X</div>
-      <div style="margin-top:24px;" class="note-box">
+    <div class="central-node-card">
+      <div class="box-center" style="padding:14px 26px;font-size:clamp(14px,2.8vw,18px);">
+        Alkyl Halide<br>R – X
+      </div>
+      <div class="note-box" style="text-align:left;max-width:340px;">
         ★ R–CH₂Cl + NaI → R–CH₂I + NaCl<br>
-        <span class="named-rxn" style="margin:0;">Finkelstein Reaction</span><br><br>
+        <span class="named-rxn" style="margin-top:4px;display:inline-flex;">Finkelstein Reaction</span><br><br>
         ★ R–CH₂Cl + AgF → R–F + AgCl<br>
-        <span class="named-rxn" style="margin:0;">Swarts Reaction</span>
+        <span class="named-rxn" style="margin-top:4px;display:inline-flex;">Swarts Reaction</span>
       </div>
     </div>
-   </div> 
 
-    <!-- Branches -->
-    <div style="display:flex;flex-direction:column;gap:6px;min-width:380px;">
-
-      <!-- Grignard -->
-    <div class="subsection" style="margin-bottom:20px;"> 
+    <div class="subsection">
+      <div class="subsection-title">Grignard Pathway</div>
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;">
+        <div class="arrow-h" style="min-width:110px;">
           <span class="reagent">Mg / Dry Ether</span>
           <div class="arrow-shaft"><div class="arrow-line"></div></div>
         </div>
-      </div>
         <div class="box-blue"><strong>Grignard R–Mg–X</strong></div>
-        <div class="branch-indent branch-blue" style="margin-left:8px;">
-          <div class="row">
-            <div class="arrow-h" style="min-width:70px;"><span class="reagent">+ HCHO</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-            <div class="box-green">1° Alcohol</div>
-          </div>
-          <div class="row">
-            <div class="arrow-h" style="min-width:70px;"><span class="reagent">+ RCHO</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-            <div class="box-green">2° Alcohol</div>
-          </div>
-          <div class="row">
-            <div class="arrow-h" style="min-width:70px;"><span class="reagent">+ RCOR′</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-            <div class="box-green">3° Alcohol</div>
-          </div>
+      </div>
+      <div class="branch-indent branch-blue">
+        <div class="row">
+          <div class="arrow-h" style="min-width:80px;"><span class="reagent">+ HCHO</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">1° Alcohol</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:80px;"><span class="reagent">+ RCHO</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">2° Alcohol</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:80px;"><span class="reagent">+ RCOR′</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">3° Alcohol</div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="divider"></div>
+  <!-- ROW 2: Simple reactions | Nitrile pathway | Alcohol pathway -->
+  <div class="three-col">
 
-      <!-- NH3 -->
-    <div class="subsection" style="margin-bottom:20px;"> 
+    <div class="subsection">
+      <div class="subsection-title">Simple Reactions</div>
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;"><span class="reagent">NH₃</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="arrow-h" style="min-width:110px;"><span class="reagent">NH₃</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-green">Amine (R–NH₂)</div>
       </div>
-
-      <!-- Na / Dry Ether Wurtz -->
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;"><span class="reagent">Na / Dry Ether</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="arrow-h" style="min-width:110px;"><span class="reagent">Na / Dry Ether</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box">Alkane (R–R)</div>
         <span class="named-rxn">Wurtz Reaction</span>
       </div>
-
-      <!-- KCN → Nitrile -->
-      <div class="row" style="align-items:flex-start;">
-        <div class="arrow-h" style="min-width:100px;margin-top:10px;"><span class="reagent">KCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
-          <div class="box-blue" style="margin-bottom:6px;">Nitrile (R–CN)</div>
-          <div class="branch-indent branch-blue">
-            <div class="row">
-              <div class="arrow-h" style="min-width:100px;"><span class="reagent">SnCl₂/HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-green">Aldehyde (R–CHO)</div>
-              <span class="named-rxn">Stephen Reaction</span>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:100px;"><span class="reagent">LiAlH₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-green">Amine (R–NH₂)</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:100px;"><span class="reagent">H₃O⁺ (Hydrolysis)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-green">Carboxylic Acid</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AgCN -->
+      <div class="divider"></div>
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;"><span class="reagent">AgCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="arrow-h" style="min-width:110px;"><span class="reagent">AgCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box">Isocyanide (R–NC)</div>
       </div>
-
-      <!-- KNO2 -->
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;"><span class="reagent">KNO₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-        <div class="box">Alkyl Nitrite (R–O–N=O)</div>
+        <div class="arrow-h" style="min-width:110px;"><span class="reagent">KNO₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="box">Alkyl Nitrite (R–ONO)</div>
       </div>
-
-      <!-- AgNO2 -->
       <div class="row">
-        <div class="arrow-h" style="min-width:100px;"><span class="reagent">AgNO₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="arrow-h" style="min-width:110px;"><span class="reagent">AgNO₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box">Nitroalkane (R–NO₂)</div>
       </div>
     </div>
 
-      <div class="divider"></div>
-
-      <!-- Aq KOH → Alcohol → sub branches -->
-     <div class="subsection" style="margin-bottom:20px;">
-      <div class="row" style="align-items:flex-start;">
-        <div class="arrow-h" style="min-width:100px;margin-top:10px;"><span class="reagent">Aq. KOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
-          <div class="box-green" style="font-weight:700;margin-bottom:6px;">Alcohol (R–OH)</div>
-          <div class="branch-indent branch-green">
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">PCl₅ / SOCl₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box" style="color:#c0392b;border-color:#c0392b;">↺ back to R–X</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">KMnO₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-green">Carboxylic Acid</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">Na Metal</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box">Sodium Alkoxide</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">Cu / 573K (1°)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-orange">Aldehyde</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">Cu / 573K (2°)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box-orange">Ketone</div>
-            </div>
-            <div class="row">
-              <div class="arrow-h" style="min-width:110px;"><span class="reagent">NaOK / KOH (dry)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
-              <div class="box">Ether (R–O–R′)</div>
-              <span class="named-rxn">Williamson Synthesis</span>
-            </div>
-          </div>
+    <div class="subsection">
+      <div class="subsection-title">Nitrile Pathway</div>
+      <div class="row">
+        <div class="arrow-h" style="min-width:80px;"><span class="reagent">KCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="box-blue">Nitrile (R–CN)</div>
+      </div>
+      <div class="branch-indent branch-blue">
+        <div class="row">
+          <div class="arrow-h" style="min-width:110px;"><span class="reagent">SnCl₂ / HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">Aldehyde (R–CHO)</div>
+          <span class="named-rxn">Stephen Reaction</span>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:110px;"><span class="reagent">LiAlH₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">Amine (R–NH₂)</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:110px;"><span class="reagent">H₃O⁺ (Hydrolysis)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">Carboxylic Acid</div>
         </div>
       </div>
     </div>
 
+    <div class="subsection">
+      <div class="subsection-title">Alcohol Pathway</div>
+      <div class="row">
+        <div class="arrow-h" style="min-width:90px;"><span class="reagent">Aq. KOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+        <div class="box-green" style="font-weight:700;">Alcohol (R–OH)</div>
+      </div>
+      <div class="branch-indent branch-green">
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">PCl₅ / SOCl₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box" style="color:var(--red);border-color:var(--red);">↺ back to R–X</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">KMnO₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-green">Carboxylic Acid</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">Na Metal</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box">Sodium Alkoxide</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">Cu / 573K (1°→)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-orange">Aldehyde</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">Cu / 573K (2°→)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box-orange">Ketone</div>
+        </div>
+        <div class="row">
+          <div class="arrow-h" style="min-width:120px;"><span class="reagent">NaOR′ / KOH (dry)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="box">Ether (R–O–R′)</div>
+          <span class="named-rxn">Williamson Synthesis</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!--   TAB 2   -->
+<!-- ══════════════════ TAB 2 ══════════════════ -->
 <div id="tab2" class="chart-section">
   <div class="section-title">Carbonyl Group (≥C=O) — Reactions</div>
 
-  <div class="note-box" style="margin-bottom:20px;">
-    ★ <strong>NaBH₄</strong> is a <em>weak reducing agent</em> — can reduce aldehydes/ketones but <strong>cannot</strong> reduce esters or carboxylic acids.
+  <div class="note-box" style="margin-bottom:20px;display:block;">
+    ★ <strong>NaBH₄</strong> is a <em>weak reducing agent</em> — reduces aldehydes/ketones but <strong>cannot</strong> reduce esters or carboxylic acids.
   </div>
 
-  <!-- Synthesis IN -->
   <div class="subsection" style="margin-bottom:20px;">
-    <div class="subsection-title">How to make a Carbonyl compound (→ ≥C=O)</div>
-    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
+    <div class="subsection-title">How to Make a Carbonyl Compound (→ ≥C=O)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;">
       <div style="text-align:center;">
         <div class="box-green">1° Alcohol</div>
-        <div class="arrow-down-wrap"><div class="reagent" style="margin:4px 0;">Cu / 573K</div><div class="arrow-v-line"></div></div>
+        <div class="arrow-down-wrap"><div class="reagent" style="margin:5px 0;">Cu / 573K</div><div class="arrow-v-line"></div></div>
         <div class="box-orange">Aldehyde</div>
       </div>
       <div style="text-align:center;">
         <div class="box-green">2° Alcohol</div>
-        <div class="arrow-down-wrap"><div class="reagent" style="margin:4px 0;">Cu / 573K</div><div class="arrow-v-line"></div></div>
+        <div class="arrow-down-wrap"><div class="reagent" style="margin:5px 0;">Cu / 573K</div><div class="arrow-v-line"></div></div>
         <div class="box-orange">Ketone</div>
       </div>
       <div style="text-align:center;">
         <div class="box">Alkyne</div>
-        <div class="arrow-down-wrap"><div class="reagent" style="margin:4px 0;">HgSO₄ / H₂SO₄</div><div class="arrow-v-line"></div></div>
+        <div class="arrow-down-wrap"><div class="reagent" style="margin:5px 0;">HgSO₄ / H₂SO₄</div><div class="arrow-v-line"></div></div>
         <div class="box-orange">Ketone</div>
       </div>
       <div style="text-align:center;">
         <div class="box">Acid Chloride (RCOCl)</div>
-        <div class="arrow-down-wrap"><div class="reagent" style="margin:4px 0;">H₂ / Pd–BaSO₄</div><div class="arrow-v-line"></div></div>
+        <div class="arrow-down-wrap"><div class="reagent" style="margin:5px 0;">H₂ / Pd–BaSO₄</div><div class="arrow-v-line"></div></div>
         <div class="box-orange">Aldehyde</div>
-        <div class="named-rxn" style="display:block;margin-top:4px;">Rosenmund Reduction</div>
+        <div style="margin-top:5px;"><span class="named-rxn">Rosenmund Reduction</span></div>
       </div>
       <div style="text-align:center;">
-        <div class="box">Nitrile (R–CN)</div>
-        <div class="arrow-down-wrap"><div class="reagent" style="margin:4px 0;">SnCl₂ / HCl</div><div class="arrow-v-line"></div></div>
+        <div class="box-blue">Nitrile (R–CN)</div>
+        <div class="arrow-down-wrap"><div class="reagent" style="margin:5px 0;">SnCl₂ / HCl</div><div class="arrow-v-line"></div></div>
         <div class="box-orange">Aldehyde</div>
-        <div class="named-rxn" style="display:block;margin-top:4px;">Stephen Reaction</div>
+        <div style="margin-top:5px;"><span class="named-rxn">Stephen Reaction</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Central node -->
-  <div style="display:flex;justify-content:center;margin:6px 0 20px;">
-    <div class="box-center" style="font-size:19px;padding:12px 32px;">≥ C=O &nbsp; (Carbonyl Group)</div>
+  <div style="display:flex;justify-content:center;margin:4px 0 20px;">
+    <div class="box-center" style="font-size:clamp(15px,3.2vw,20px);padding:13px 34px;">≥ C=O &nbsp; (Carbonyl Group)</div>
   </div>
 
-  <!-- Reactions OUT -->
   <div class="subsection">
     <div class="subsection-title">Reactions of Carbonyl Compounds (≥C=O → Products)</div>
     <div class="two-col">
@@ -576,39 +629,37 @@
       <div>
         <div class="sub-group-title">▶ Reduction → Alkane</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">Zn–Hg / Conc. HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">Zn–Hg / Conc. HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box">≥CH₂ (Alkane)</div>
           <span class="named-rxn">Clemmensen Red.</span>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">NH₂NH₂ / KOH, glycol</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">NH₂NH₂ / KOH, glycol</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box">≥CH₂ (Alkane)</div>
           <span class="named-rxn">Wolff–Kishner</span>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">HI / Red P</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">HI / Red P</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box">Alkane</div>
         </div>
-
-        <div class="sub-group-title" style="margin-top:16px;">▶ Reduction → Alcohol</div>
+        <div class="sub-group-title">▶ Reduction → Alcohol</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">LiAlH₄ or NaBH₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">LiAlH₄ or NaBH₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-green">Alcohol (≥CH–OH)</div>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">Na/Hg + H₂O</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">Na/Hg + H₂O</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-green">Alcohol (≥CH–OH)</div>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">R–MgX then H₃O⁺</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">R–MgX then H₃O⁺</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-green">Alcohol</div>
           <span class="named-rxn">Grignard Reaction</span>
         </div>
-
-        <div class="sub-group-title" style="margin-top:16px;">▶ Acid Chloride Route</div>
+        <div class="sub-group-title">▶ Acid Chloride Route</div>
         <div class="row" style="flex-wrap:wrap;gap:4px;">
           <div class="box-orange" style="white-space:nowrap;">R–COOH</div>
-          <div class="arrow-h" style="min-width:100px;"><span class="reagent">PCl₅ or SOCl₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:110px;"><span class="reagent">PCl₅ or SOCl₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-orange" style="white-space:nowrap;">R–COCl</div>
         </div>
         <div class="branch-indent branch-orange" style="margin-top:6px;">
@@ -623,37 +674,34 @@
       <div>
         <div class="sub-group-title">▶ Nucleophilic Addition</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">HCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">HCN</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-blue">Cyanohydrin</div>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">NaHSO₃</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">NaHSO₃</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-blue">Bisulphite Adduct</div>
         </div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">Alcohol / Dry HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">Alcohol / Dry HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-blue">Acetal / Ketal</div>
         </div>
-
-        <div class="sub-group-title" style="margin-top:16px;">▶ Ammonia Derivatives</div>
-        <div class="note-box" style="margin-bottom:8px;font-size:11px;">Z = OH, NH₂, NH–Ph, N₂–Ph …</div>
+        <div class="sub-group-title">▶ Ammonia Derivatives</div>
+        <div class="note-box" style="margin-bottom:8px;font-size:11px;display:block;">Z = OH, NH₂, NH–Ph, N₂–Ph …</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">NH₂–Z</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">NH₂–Z</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-orange">≥C=N–Z Derivatives</div>
         </div>
-
-        <div class="sub-group-title" style="margin-top:16px;">▶ Cannizzaro Reaction (No α-H)</div>
+        <div class="sub-group-title">▶ Cannizzaro Reaction (No α-H)</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">Conc. NaOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">Conc. NaOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div style="display:flex;flex-direction:column;gap:4px;">
             <div class="box-green">Alcohol (½ mole)</div>
             <div class="box-green">Carboxylate Salt (½ mole)</div>
           </div>
         </div>
-
-        <div class="sub-group-title" style="margin-top:16px;">▶ Aldol Condensation (With α-H)</div>
+        <div class="sub-group-title">▶ Aldol Condensation (With α-H)</div>
         <div class="row">
-          <div class="arrow-h" style="min-width:130px;"><span class="reagent">Dil. NaOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
+          <div class="arrow-h" style="min-width:140px;"><span class="reagent">Dil. NaOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-blue">β-Hydroxyaldehyde<br><small>(→ Dehydration → α,β-Unsaturated)</small></div>
         </div>
       </div>
@@ -662,17 +710,15 @@
   </div>
 </div>
 
-<!--   TAB 3   -->
+<!-- ══════════════════ TAB 3 ══════════════════ -->
 <div id="tab3" class="chart-section">
-  <div class="section-title">Benzene, Toluene & Phenol</div>
+  <div class="section-title">Benzene, Toluene &amp; Phenol</div>
 
-  <div class="two-col" style="margin-bottom:24px;">
+  <div class="two-col" style="margin-bottom:18px;">
 
-    <!-- Benzene EAS -->
     <div class="subsection">
       <div class="subsection-title">Benzene — Electrophilic Aromatic Substitution</div>
-
-      <div style="display:flex;justify-content:center;margin-bottom:18px;">
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
         <div class="box-purple" style="font-size:15px;font-weight:700;padding:10px 22px;">Benzene (C₆H₆)</div>
       </div>
 
@@ -727,14 +773,11 @@
       </div>
     </div>
 
-    <!-- Toluene side-chain -->
     <div class="subsection">
       <div class="subsection-title">Toluene — Side-Chain Reactions</div>
-
-      <div style="display:flex;justify-content:center;margin-bottom:18px;">
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
         <div class="box-purple" style="font-size:15px;font-weight:700;padding:10px 22px;">Toluene (C₆H₅–CH₃)</div>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Cl₂ / hν (UV light)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Benzyl Chloride (C₆H₅CH₂Cl)</div>
@@ -751,25 +794,20 @@
           </div>
         </div>
       </div>
-
       <div class="row" style="margin-top:8px;">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">CrO₂Cl₂/CS₂ → H₃O⁺</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Benzaldehyde</div>
         <span class="named-rxn">Etard Reaction</span>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">KMnO₄/KOH/Heat</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Benzoic Acid</div>
       </div>
-
       <div class="divider"></div>
-      <div class="subsection-title">Ethylbenzene Reactions</div>
-
+      <div class="subsection-title" style="margin-top:4px;">Ethylbenzene Reactions</div>
       <div style="display:flex;justify-content:center;margin-bottom:12px;">
         <div class="box-purple">Ethylbenzene (C₆H₅–C₂H₅)</div>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:150px;"><span class="reagent">CrO₂Cl₂/CS₂ → H₃O⁺</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Benzaldehyde</div>
@@ -781,14 +819,11 @@
     </div>
   </div>
 
-  <!-- Phenol -->
   <div class="subsection">
     <div class="subsection-title">Phenol (C₆H₅–OH) — Reactions</div>
-
     <div style="display:flex;justify-content:center;margin-bottom:18px;">
       <div class="box-center" style="font-size:15px;padding:12px 26px;">Phenol (C₆H₅–OH)</div>
     </div>
-
     <div class="three-col">
       <div>
         <div class="sub-group-title">Named Reactions</div>
@@ -811,7 +846,6 @@
           <div class="box-green">Benzene + ZnO</div>
         </div>
       </div>
-
       <div>
         <div class="sub-group-title">Halogenation</div>
         <div class="row">
@@ -822,7 +856,6 @@
           <div class="arrow-h" style="min-width:120px;"><span class="reagent">Br₂ / CS₂</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
           <div class="box-purple">o/p-Bromophenol</div>
         </div>
-
         <div class="sub-group-title" style="margin-top:12px;">Nitration</div>
         <div class="row">
           <div class="arrow-h" style="min-width:120px;"><span class="reagent">Dil. HNO₃</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
@@ -833,7 +866,6 @@
           <div class="box-purple">Picric Acid</div>
         </div>
       </div>
-
       <div>
         <div class="sub-group-title">Other Reactions</div>
         <div class="row">
@@ -867,21 +899,17 @@
   </div>
 </div>
 
-<!--   TAB 4   -->
+<!-- ══════════════════ TAB 4 ══════════════════ -->
 <div id="tab4" class="chart-section">
-  <div class="section-title">Aniline & Benzene Diazonium Salt Reactions</div>
+  <div class="section-title">Aniline &amp; Benzene Diazonium Salt Reactions</div>
 
-  <div class="two-col" style="margin-bottom:24px;">
+  <div class="two-col" style="margin-bottom:18px;">
 
-    <!-- Aniline -->
     <div class="subsection">
       <div class="subsection-title">Aniline (C₆H₅–NH₂) Reactions</div>
-
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
         <div class="box-purple" style="font-size:15px;font-weight:700;padding:10px 20px;">Aniline (C₆H₅–NH₂)</div>
       </div>
-
-      <!-- Acetylation -->
       <div class="row" style="align-items:flex-start;">
         <div class="arrow-h" style="min-width:130px;margin-top:10px;"><span class="reagent">CH₃CO–O–COCH₃ / Py</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div style="display:flex;flex-direction:column;gap:2px;">
@@ -900,47 +928,38 @@
           </div>
         </div>
       </div>
-
       <div class="row" style="margin-top:8px;">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">+3Br₂ / H₂O</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">2,4,6-Tribromoaniline + 3HBr</div>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Conc. HNO₃ (direct)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">o/p/m-Nitroaniline (mix)</div>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">H₂SO₄ (Conc.)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Sulphanilic Acid<br><small>(Zwitterion)</small></div>
       </div>
-
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Br₂ / CH₃COOH</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">p-Bromoaniline</div>
       </div>
-
       <div class="row" style="margin-top:10px;">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">NaNO₂ + HCl (0–5°C)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-center" style="font-size:13px;padding:8px 14px;">Diazonium Salt<br><strong>C₆H₅–N₂⁺Cl⁻</strong></div>
       </div>
-
-      <div class="note-box" style="margin-top:14px;font-size:11px;">
+      <div class="note-box" style="margin-top:14px;font-size:11px;display:block;">
         ★ Aliphatic diazonium salts are unstable at room temp (release N₂ immediately).<br>
         ★ Aromatic diazonium salts are stabilised by resonance — stable at 0–5°C.<br>
-        ★ For R = 1° aliphatic: C₆H₅–N₂Cl decomposes with HOH → N₂ + R–OH + HCl
+        ★ For R = 1° aliphatic: decomposes with H₂O → N₂ + R–OH + HCl
       </div>
     </div>
 
-    <!-- Diazonium -->
     <div class="subsection">
       <div class="subsection-title">Benzene Diazonium Chloride (C₆H₅–N₂⁺Cl⁻) Reactions</div>
-
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
         <div class="box-center" style="font-size:13px;padding:10px 18px;">C₆H₅–N₂⁺Cl⁻</div>
       </div>
-
       <div class="sub-group-title">Sandmeyer Reactions</div>
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Cu₂Cl₂ / HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
@@ -952,7 +971,6 @@
         <div class="box-purple">Bromobenzene + N₂</div>
         <span class="named-rxn">Sandmeyer</span>
       </div>
-
       <div class="sub-group-title">Gattermann Reactions</div>
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Cu / HCl</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
@@ -964,7 +982,6 @@
         <div class="box-purple">Bromobenzene + N₂</div>
         <span class="named-rxn">Gattermann</span>
       </div>
-
       <div class="sub-group-title">Other Conversions</div>
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">KI / Heat</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
@@ -982,7 +999,6 @@
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">H₂O (warm)</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple">Phenol + N₂ + HCl</div>
       </div>
-
       <div class="sub-group-title">Coupling Reactions</div>
       <div class="row">
         <div class="arrow-h" style="min-width:130px;"><span class="reagent">Phenol / OH⁻</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
@@ -995,11 +1011,10 @@
     </div>
   </div>
 
-  <!-- Full chain summary -->
   <div class="subsection">
     <div class="subsection-title">Aromatic Conversion Chain Summary</div>
-    <div style="overflow-x:auto;padding:8px 0;">
-      <div class="row" style="flex-wrap:nowrap;gap:2px;min-width:900px;justify-content:flex-start;">
+    <div style="overflow-x:auto;padding:6px 0 4px;">
+      <div class="row" style="flex-wrap:nowrap;gap:2px;min-width:860px;justify-content:flex-start;">
         <div class="box-purple" style="white-space:nowrap;">Benzene</div>
         <div class="arrow-h" style="min-width:90px;"><span class="reagent">HNO₃/H₂SO₄</span><div class="arrow-shaft"><div class="arrow-line"></div></div></div>
         <div class="box-purple" style="white-space:nowrap;">Nitrobenzene</div>
@@ -1016,50 +1031,65 @@
   </div>
 </div>
 
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<div class="footer-badge">© ANMOL SHARMA 2026</div>
+
+<div class="page-footer">
+  <p>© 2026 ANMOL SHARMA &nbsp;•&nbsp; ALL RIGHTS RESERVED</p>
+  <p style="margin-top:4px;opacity:.7;">Licensed for personal and educational use under the MIT License.</p>
+  <p style="margin-top:10px;">
+    <strong style="color:var(--ink);">LEGAL NOTICE:</strong>
+    This project is an independent summary based on <strong>NCERT</strong> data,
+    licensed for <strong>personal educational use only</strong>.
+    Unauthorized redistribution or derivation violates copyright law.
+  </p>
+  <p style="margin-top:10px;">
+    Found an error? &nbsp;<a href="https://github.com/Dark-Gravity007">Submit feedback on GitHub →</a>
+  </p>
+</div>
+
 <script>
+  /* ── TAB SWITCHING ── */
   function showTab(id, btn) {
     document.querySelectorAll('.chart-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    runSearch(document.getElementById('search-input').value);
   }
-</script>
-<div style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #1a1a2e;
-    color: #fdf8f0;
-    padding: 8px 15px;
-    border-radius: 50px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    pointer-events: none;
-">
-    © ANMOL SHARMA 2026
-</div>
 
-<div style="
-    text-align: center; 
-    margin-top: 40px; 
-    padding: 20px; 
-    border-top: 1px solid #ddd; 
-    font-family: 'JetBrains Mono', monospace; 
-    font-size: 11px; 
-    color: #666;
-    letter-spacing: 1px;
-">
-    <p>© 2026 ANMOL SHARMA • ALL RIGHTS RESERVED</p>
-    <p style="margin-top: 5px; opacity: 0.7;">Licensed for personal and educational use under the MIT License.</p>
-    <strong style="color: #1a1a2e;">LEGAL NOTICE:</strong><br>
-    This project is an independent summary based on <strong>NCERT</strong> data. 
-    It is licensed for <strong>personal educational use only</strong>. 
-    Unauthorized copying, redistribution, or derivation of this design is a violation of copyright law. 
-    <br><br>
-    Found an error? Have a suggestion? 
-    <a href="https://github.com/Dark-Gravity007" style="color: #007bff; text-decoration: none;">Submit feedback on GitHub →</a>
-    
-</div>
+  /* ── SEARCH / HIGHLIGHT ── */
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
+
+  function runSearch(query) {
+    const targets = document.querySelectorAll(
+      '.box, .box-green, .box-purple, .box-blue, .box-orange, .box-center, .reagent, .named-rxn'
+    );
+    targets.forEach(el => el.classList.remove('search-match'));
+
+    const q = query.trim().toLowerCase();
+    if (!q) return;
+
+    targets.forEach(el => {
+      if (el.textContent.toLowerCase().includes(q)) {
+        el.classList.add('search-match');
+      }
+    });
+  }
+
+  searchInput.addEventListener('input', () => {
+    const val = searchInput.value;
+    searchClear.style.display = val ? 'block' : 'none';
+    runSearch(val);
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchClear.style.display = 'none';
+    runSearch('');
+    searchInput.focus();
+  });
+</script>
 </html>
