@@ -6,7 +6,7 @@ A clean, interactive, and comprehensive visual guide to Organic Chemistry reacti
 
 # HERE IS THE LINK TO SITE
 
-[![Live Site](https://img.shields.io/badge/LIVE_SITE-Visit_Now-blueviolet?style=for-the-badge&logo=windowsterminal&logoColor=white)](https://as-chem.fwh.is/)
+[![Live Site](https://img.shields.io/badge/LIVE_SITE-Visit_Now-blueviolet?style=for-the-badge&logo=windowsterminal&logoColor=white)](https://bbchem.netlify.app/)
 
 ## 🌟 Overview
 
